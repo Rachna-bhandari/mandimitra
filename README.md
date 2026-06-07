@@ -1,78 +1,48 @@
-\# MandiMitra
+# 🌾 MandiMitra
 
+### *AI-Powered Mandi Price Forecaster for Mountain Farmers*
 
+> Empowering village-level coordinators in Uttarakhand to make smarter selling decisions using live government mandi data and AI-generated advisories.
 
-> AI-powered mandi price forecaster for mountain farmers in Uttarakhand.
+---
 
+## 🚩 The Problem
 
+Small-hold farmers in Kedarnath Valley harvest crops without knowing mandi prices.
+By the time they reach Rudraprayag or Haldwani, they must accept whatever the middleman quotes — with no data, no forecast, no leverage.
 
-MandiMitra helps village-level coordinators fetch live mandi prices, visualize
+---
 
-2-week trends, and receive an AI-generated advisory on when and where to sell crops.
+## 💡 The Solution
 
+**MandiMitra** fetches live mandi prices, visualizes 2-week trends, and delivers an AI advisory — *hold, sell, or reroute* — in plain Hindi/English, shareable instantly via WhatsApp.
 
+---
 
-\---
+## ✨ Features
 
+| # | Feature | Description |
+|---|---|---|
+| 1 | 📊 Live Price Lookup | Real-time mandi prices via Agmarknet / data.gov.in API |
+| 2 | 📈 Trend Chart | 2-week price trend visualized with Recharts |
+| 3 | 🤖 AI Advisory | Claude API generates hold/sell/reroute recommendation |
+| 4 | 🌾 Crop & Mandi Selector | Dropdowns for crop type and nearest mandi |
+| 5 | 📲 WhatsApp Card Export | One-tap shareable advisory card for farmers |
 
+---
 
-\## Tech Stack
+## 🛠️ Tech Stack
 
+| Layer | Tool |
+|---|---|
+| Frontend | React 18 + Vite |
+| Styling | Tailwind CSS |
+| Charts | Recharts |
+| AI API | Anthropic Claude API (Haiku) |
+| Live Data | Agmarknet / data.gov.in |
+| Backend | Express.js (Node) |
+| Deployment | Vercel (Frontend) + Render (Backend) |
 
+---
 
-| Layer      | Tool                        |
-
-|------------|-----------------------------|
-
-| Frontend   | React 18 + Vite             |
-
-| Styling    | Tailwind CSS                |
-
-| Charts     | Recharts                    |
-
-| AI API     | Anthropic Claude API        |
-
-| Live Data  | Agmarknet / data.gov.in     |
-
-| Backend    | Express.js (Node)           |
-
-| Deployment | Vercel (FE) + Render (BE)   |
-
-
-
-\---
-
-
-
-\## Project Structure
-
-
-
-mandimitra/
-
-├── frontend/     # React + Vite app
-
-├── backend/      # Express.js API server
-
-└── README.md
-
-
-
-\---
-
-
-
-\## Setup — Coming Soon
-
-
-
-Full setup instructions will be added in Week 2 once the base app is scaffolded.
-
-
-
-\---
-
-
-
-\*TBI GEU Summer Internship Program 2026 — AI / Full Stack Track\*
-
+## 📁 Project Structure
