@@ -19,7 +19,7 @@ export default function About() {
           Village-level entrepreneur coordinators, aged 25-45, bridge 15-40 farming
           households and their nearest mandi. MandiMitra gives these coordinators
           the data and AI-generated advice they need to negotiate fair prices — in
-          Hindi or English, in under a second.
+          Hindi or English, within a second.
         </p>
         <p className="text-gray-500 text-sm">
 
