@@ -11,7 +11,7 @@ export default function Login() {
             Coordinator Login
           </h1>
           <p className="text-gray-500 text-sm mb-8">
-            Sign in to access live prices and your AI advisory.
+            Sign in to access the live prices and your AI advisory.
           </p>
 
           <div className="space-y-4">
