@@ -46,3 +46,18 @@ By the time they reach Rudraprayag or Haldwani, they must accept whatever the mi
 ---
 
 ## 📁 Project Structure
+## How to Run Backend Locally
+
+1. Go to backend folder: `cd backend`
+2. Install dependencies: `npm install`
+3. Create `.env` file with `PORT=5000`
+4. Start server: `npm run dev`
+5. Server runs at http://localhost:5000
+
+### API Endpoints
+- GET /api/prices
+- GET /api/prices/:id
+- POST /api/prices
+- PUT /api/prices/:id
+- DELETE /api/prices/:id
+- GET /api/search?crop=
