@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import DarkModeToggle from './ui/DarkModeToggle'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -36,15 +37,19 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <button
-          className="md:hidden text-white focus:outline-none"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-4 h-0.5 bg-white"></span>
-        </button>
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+          >
+            <span className="block w-6 h-0.5 bg-white mb-1"></span>
+            <span className="block w-6 h-0.5 bg-white mb-1"></span>
+            <span className="block w-4 h-0.5 bg-white"></span>
+          </button>
+        </div>
       </div>
 
       {open && (
