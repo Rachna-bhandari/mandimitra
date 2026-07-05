@@ -1,6 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import { connectDB } from './config/db.js'
+import Price from './models/Price.js'
 
 dotenv.config()
 
@@ -12,62 +14,75 @@ app.use(cors({
 }))
 app.use(express.json())
 
-// In-memory data
-let prices = [
-  { id: 1, crop: 'Potato', price: 14, unit: 'kg', mandi: 'Rudraprayag', trend: '+8%' },
-  { id: 2, crop: 'Peas', price: 28, unit: 'kg', mandi: 'Rudraprayag', trend: '-2%' },
-  { id: 3, crop: 'Beans', price: 35, unit: 'kg', mandi: 'Haldwani', trend: '+11%' },
-  { id: 4, crop: 'Tomato', price: 20, unit: 'kg', mandi: 'Srinagar', trend: '+5%' },
-]
+await connectDB()
 
-// GET all prices
-app.get('/api/prices', (req, res) => {
-  res.status(200).json(prices)
-})
-
-// GET single price
-app.get('/api/prices/:id', (req, res) => {
-  const price = prices.find(p => p.id === parseInt(req.params.id))
-  if (!price) return res.status(404).json({ message: 'Price not found' })
-  res.status(200).json(price)
-})
-
-// POST new price
-app.post('/api/prices', (req, res) => {
-  const { crop, price, unit, mandi, trend } = req.body
-  if (!crop || !price || !mandi) {
-    return res.status(400).json({ message: 'crop, price and mandi are required' })
+app.get('/api/prices', async (req, res) => {
+  try {
+    const prices = await Price.find().sort({ createdAt: -1 })
+    res.status(200).json(prices)
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch prices', error: err.message })
   }
-  const newPrice = { id: prices.length + 1, crop, price, unit: unit || 'kg', mandi, trend: trend || '0%' }
-  prices.push(newPrice)
-  res.status(201).json(newPrice)
 })
 
-// PUT update price
-app.put('/api/prices/:id', (req, res) => {
-  const index = prices.findIndex(p => p.id === parseInt(req.params.id))
-  if (index === -1) return res.status(404).json({ message: 'Price not found' })
-  prices[index] = { ...prices[index], ...req.body }
-  res.status(200).json(prices[index])
+app.get('/api/prices/:id', async (req, res) => {
+  try {
+    const price = await Price.findById(req.params.id)
+    if (!price) return res.status(404).json({ message: 'Price not found' })
+    res.status(200).json(price)
+  } catch (err) {
+    res.status(400).json({ message: 'Invalid id', error: err.message })
+  }
 })
 
-// DELETE price
-app.delete('/api/prices/:id', (req, res) => {
-  const index = prices.findIndex(p => p.id === parseInt(req.params.id))
-  if (index === -1) return res.status(404).json({ message: 'Price not found' })
-  prices.splice(index, 1)
-  res.status(204).send()
+app.post('/api/prices', async (req, res) => {
+  try {
+    const { crop, price, unit, mandi, trend } = req.body
+    if (!crop || price === undefined || !mandi) {
+      return res.status(400).json({ message: 'crop, price and mandi are required' })
+    }
+    const newPrice = await Price.create({ crop, price, unit, mandi, trend })
+    res.status(201).json(newPrice)
+  } catch (err) {
+    res.status(400).json({ message: 'Failed to create price', error: err.message })
+  }
 })
 
-// GET search
-app.get('/api/search', (req, res) => {
-  const { crop } = req.query
-  if (!crop) return res.status(400).json({ message: 'crop query param required' })
-  const results = prices.filter(p => p.crop.toLowerCase().includes(crop.toLowerCase()))
-  res.status(200).json(results)
+app.put('/api/prices/:id', async (req, res) => {
+  try {
+    const updated = await Price.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    )
+    if (!updated) return res.status(404).json({ message: 'Price not found' })
+    res.status(200).json(updated)
+  } catch (err) {
+    res.status(400).json({ message: 'Failed to update price', error: err.message })
+  }
 })
 
-// Error handling middleware
+app.delete('/api/prices/:id', async (req, res) => {
+  try {
+    const deleted = await Price.findByIdAndDelete(req.params.id)
+    if (!deleted) return res.status(404).json({ message: 'Price not found' })
+    res.status(204).send()
+  } catch (err) {
+    res.status(400).json({ message: 'Failed to delete price', error: err.message })
+  }
+})
+
+app.get('/api/search', async (req, res) => {
+  try {
+    const { crop } = req.query
+    if (!crop) return res.status(400).json({ message: 'crop query param required' })
+    const results = await Price.find({ crop: { $regex: crop, $options: 'i' } })
+    res.status(200).json(results)
+  } catch (err) {
+    res.status(500).json({ message: 'Search failed', error: err.message })
+  }
+})
+
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).json({ message: 'Something went wrong!' })
