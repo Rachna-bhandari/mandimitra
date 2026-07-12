@@ -3,6 +3,8 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { connectDB } from './config/db.js'
 import Price from './models/Price.js'
+import authRoutes from './routes/auth.js'
+import passport from './config/passport.js'   // 👈 NEW
 
 dotenv.config()
 
@@ -13,8 +15,11 @@ app.use(cors({
   origin: 'http://localhost:5173'
 }))
 app.use(express.json())
+app.use(passport.initialize())   // 👈 NEW
 
 await connectDB()
+
+app.use('/api/auth', authRoutes)
 
 app.get('/api/prices', async (req, res) => {
   try {
